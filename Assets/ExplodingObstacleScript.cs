@@ -27,6 +27,8 @@ public class SnowmanScript : MonoBehaviour
 
     private void Explode()
     {
+        Camera.main.GetComponent<CameraController>().StartSlowMotion();
+
         BoxCollider.enabled = false;
         foreach(var body in Rigidbodies){
             body.isKinematic = false;
@@ -34,6 +36,5 @@ public class SnowmanScript : MonoBehaviour
             var randomVector = new Vector3(Random.Range(0.9f,0.9f),Random.Range(0.9f,0.9f),Random.Range(0.9f,0.9f));
             body.AddExplosionForce(200f, this.transform.position + randomVector, randomExplosion);
         }
-        Camera.main.GetComponent<CameraController>().StartSlowMotion();
     }
 }
