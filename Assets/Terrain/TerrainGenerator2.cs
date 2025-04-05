@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using System.Linq;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(MeshCollider))]
 public class TerrainGenerator2 : MonoBehaviour
@@ -21,33 +20,66 @@ public class TerrainGenerator2 : MonoBehaviour
     [Range(0f, 1f)]
     public float Density = 0.5f;
     public float FenceGap = 2f;
-    public float FenceMargin = 2f;
+    [Range(0f, 1f)]
+    public float FenceMargin = 0.1f;
+
+    [Header("Penguin Settings")]
+    [Range(2, 30)]
+    public int PenguinClusters = 5;
+    public Transform PenguinContainer;
+    public GameObject PenguinPrefab;
+
 
     private const int verticesPerSegment = 4;
+
+    [ContextMenu("Generate Penguins")]
+    private void GeneratePenguins()
+    {
+        ClearPenguins();
+        for (int i = 0; i< PenguinClusters; i++) 
+        {
+            var count = Random.Range(2, 5);
+            var t = Random.Range(0.1f, 0.95f);
+            var x = Random.Range(-0.8f, 0.8f);
+
+            for (int j = 0; j < count; j++)
+            {
+                var dt = Random.Range(-0.01f, 0.01f);
+                var dx = Random.Range(-0.1f, 0.1f);
+                var pos = GetPos(t + dt, x + dx);
+                var obj = Instantiate(PenguinPrefab, pos, Quaternion.identity, PenguinContainer);
+            }
+        }
+    }
+
+    private void ClearPenguins()
+    {
+        var objs = PenguinContainer.GetComponentsInChildren<Transform>().Where(x => x.CompareTag("Penguin")).ToList();
+        foreach (var obj in objs)
+        {
+            DestroyImmediate(obj.gameObject);
+        }
+    }
 
     [ContextMenu("Generate Fences")]
     private void GenerateFence()
     {
         ClearFences();
 
-        float halfWidth = (width / 2f) - FenceMargin;
+        float halfWidth = 1 - FenceMargin;
         var tmp_resolution = length / FenceGap;
         for (int i = 0; i < tmp_resolution; i++)
         {
             float t = i / (float)(tmp_resolution - 1);
-            float y = heightCurve.Evaluate(t) * altitude;
-            float z = t * length;
             
             if (Density >= Random.Range(0f, 1f))
             {
-                var posL = new Vector3(-halfWidth, y, z);
-                var fenceL = Instantiate(FencePrefab, posL, Quaternion.identity, FenceContainer);
+                var fenceL = Instantiate(FencePrefab, GetPos(t, halfWidth), Quaternion.identity, FenceContainer);
                 GetRotation(fenceL.transform, t);
             }
             if (Density >= Random.Range(0f, 1f))
             {
-                var posR = new Vector3(halfWidth, y, z);
-                var fenceR = Instantiate(FencePrefab, posR, Quaternion.identity, FenceContainer);
+                var fenceR = Instantiate(FencePrefab, GetPos(t, -halfWidth), Quaternion.identity, FenceContainer);
                 GetRotation(fenceR.transform, t);
             }
         }
@@ -60,11 +92,8 @@ public class TerrainGenerator2 : MonoBehaviour
         float dx = 2 * delta;
         var angle = Vector3.Angle(Vector3.forward, new Vector3(0, dy, dx).normalized);
         transform.localRotation = Quaternion.Euler(0, 90, -angle*0.3f);
-        //Vector3 forward = new Vector3(-right.y, right.x); // Rotated 90° counter-clockwise
-        //return Quaternion.EulerRotation(tangent, normal); // adjust based on sprite direction
     }
 
-    [ContextMenu("Clear Fences")]
     private void ClearFences()
     {
         var fences = FenceContainer.GetComponentsInChildren<BoxCollider>();
@@ -93,10 +122,10 @@ public class TerrainGenerator2 : MonoBehaviour
             var right = i * verticesPerSegment + 1;
             var botLeft = i * verticesPerSegment + 2;
             var botRight = i * verticesPerSegment + 3;
-            vertices.Add(new Vector3(-halfWidth, y, z));  // Left
-            vertices.Add(new Vector3(halfWidth, y, z)); // Right
-            vertices.Add(new Vector3(-halfWidth - edgeWidth, y - edgeHeight, z));  // Left bot
-            vertices.Add(new Vector3(halfWidth + edgeWidth, y - edgeHeight, z)); // Right right
+            vertices.Add(GetPos(t, -1));  // Left
+            vertices.Add(GetPos(t, 1)); // Right
+            vertices.Add(GetPos(t, -1) + new Vector3(-edgeWidth, -edgeHeight, 0));  // Left bot
+            vertices.Add(GetPos(t, 1) + new Vector3(edgeWidth, -edgeHeight, 0)); // Right right
 
             // Create triangles
             if (i > 0)
@@ -109,12 +138,19 @@ public class TerrainGenerator2 : MonoBehaviour
 
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
-        //mesh.uv = uvs;
         mesh.RecalculateNormals();
 
         GetComponent<MeshFilter>().mesh = mesh;
 
         UpdateMeshCollider(mesh);
+    }
+
+    private Vector3 GetPos(float t, float dx)
+    {
+        float x = dx * width / 2f;
+        float y = heightCurve.Evaluate(t) * altitude;
+        float z = t * length;
+        return new Vector3(x, y, z);
     }
 
     private void AddQuad(List<int> triangles, int v1, int v2)
@@ -138,4 +174,6 @@ public class TerrainGenerator2 : MonoBehaviour
             meshCollider.sharedMesh = mesh;
         }
     }
+
+
 }
