@@ -14,6 +14,8 @@ public class TerrainGenerator2 : MonoBehaviour
     public float edgeHeight = 10f;
     public AnimationCurve widthCurve = AnimationCurve.Constant(0, 1, 1);
     public float width = 20f;
+    public AnimationCurve curve = AnimationCurve.Constant(0, 1, 0);
+    public float curveFactor = 1f;
 
 
     [Header("Fence Settings")]
@@ -131,7 +133,7 @@ public class TerrainGenerator2 : MonoBehaviour
         }
     }
 
-    [ContextMenu("Generate ALl")]
+    [ContextMenu("Generate ALL")]
     private void GenerateAll()
     {
         GenerateSnowMen();
@@ -150,8 +152,6 @@ public class TerrainGenerator2 : MonoBehaviour
         for (int i = 0; i < resolution; i++)
         {
             float t = i / (float)(resolution - 1);
-            float y = heightCurve.Evaluate(t) * altitude;
-            float z = t * length;
 
             // Add vertices
             var left = i * verticesPerSegment;
@@ -183,10 +183,11 @@ public class TerrainGenerator2 : MonoBehaviour
 
     private Vector3 GetPos(float t, float dx)
     {
+        float xOffset = curve.Evaluate(t) * curveFactor;
         float x = dx * GetWidth(t) / 2f;
         float y = heightCurve.Evaluate(t) * altitude;
         float z = t * length;
-        return new Vector3(x, y, z);
+        return new Vector3(x + xOffset, y, z);
     }
 
     private float GetWidth(float t)
