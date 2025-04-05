@@ -40,10 +40,10 @@ public class CameraController : MonoBehaviour
             timeScale -= timeToScaleDown;
             Time.timeScale = timeScale;
             Time.fixedDeltaTime = 0.02F * Time.timeScale;
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForSeconds(0.01f);
         }
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.2f);
 
         if (StartUpAgain)
             StartCoroutine(SpeedUpTime());

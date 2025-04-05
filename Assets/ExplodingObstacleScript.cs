@@ -16,25 +16,24 @@ public class SnowmanScript : MonoBehaviour
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Q)){
-            Explode();
+            Explode(this.transform.position);
         }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        Explode();
+        Explode(other.transform.position);
     }
 
-    private void Explode()
+    private void Explode(Vector3 hitPoint)
     {
         Camera.main.GetComponent<CameraController>().StartSlowMotion();
 
         BoxCollider.enabled = false;
         foreach(var body in Rigidbodies){
             body.isKinematic = false;
-            var randomExplosion = Random.Range(200f, 500f);
-            var randomVector = new Vector3(Random.Range(0.9f,0.9f),Random.Range(0.9f,0.9f),Random.Range(0.9f,0.9f));
-            body.AddExplosionForce(200f, this.transform.position + randomVector, randomExplosion);
+            var randomExplosion = Random.Range(300f, 1000f);
+            body.AddExplosionForce(randomExplosion, hitPoint, randomExplosion);
         }
     }
 }
