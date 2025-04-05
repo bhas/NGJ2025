@@ -15,7 +15,64 @@ public class TerrainGenerator2 : MonoBehaviour
     public float edgeWidth = 3f;
     public float edgeHeight = 10f;
 
+    [Header("Fence Settings")]
+    public Transform FenceContainer;
+    public GameObject FencePrefab;
+    [Range(0f, 1f)]
+    public float Density = 0.5f;
+    public float FenceGap = 2f;
+    public float FenceMargin = 2f;
+
     private const int verticesPerSegment = 4;
+
+    [ContextMenu("Generate Fences")]
+    private void GenerateFence()
+    {
+        ClearFences();
+
+        float halfWidth = (width / 2f) - FenceMargin;
+        var tmp_resolution = length / FenceGap;
+        for (int i = 0; i < tmp_resolution; i++)
+        {
+            float t = i / (float)(tmp_resolution - 1);
+            float y = heightCurve.Evaluate(t) * altitude;
+            float z = t * length;
+            
+            if (Density >= Random.Range(0f, 1f))
+            {
+                var posL = new Vector3(-halfWidth, y, z);
+                var fenceL = Instantiate(FencePrefab, posL, Quaternion.identity, FenceContainer);
+                GetRotation(fenceL.transform, t);
+            }
+            if (Density >= Random.Range(0f, 1f))
+            {
+                var posR = new Vector3(halfWidth, y, z);
+                var fenceR = Instantiate(FencePrefab, posR, Quaternion.identity, FenceContainer);
+                GetRotation(fenceR.transform, t);
+            }
+        }
+    }
+
+    private void GetRotation(Transform transform, float t)
+    {
+        float delta = 0.001f;
+        float dy = heightCurve.Evaluate(t + delta) - heightCurve.Evaluate(t - delta);
+        float dx = 2 * delta;
+        var angle = Vector3.Angle(Vector3.forward, new Vector3(0, dy, dx).normalized);
+        transform.localRotation = Quaternion.Euler(0, 90, -angle*0.3f);
+        //Vector3 forward = new Vector3(-right.y, right.x); // Rotated 90° counter-clockwise
+        //return Quaternion.EulerRotation(tangent, normal); // adjust based on sprite direction
+    }
+
+    [ContextMenu("Clear Fences")]
+    private void ClearFences()
+    {
+        var fences = FenceContainer.GetComponentsInChildren<BoxCollider>();
+        foreach(var fence in fences)
+        {
+            DestroyImmediate(fence.gameObject);
+        }
+    }
 
     [ContextMenu("Generate Slope")]
     private void GenerateRampMesh()
@@ -52,6 +109,7 @@ public class TerrainGenerator2 : MonoBehaviour
 
         mesh.vertices = vertices.ToArray();
         mesh.triangles = triangles.ToArray();
+        //mesh.uv = uvs;
         mesh.RecalculateNormals();
 
         GetComponent<MeshFilter>().mesh = mesh;
