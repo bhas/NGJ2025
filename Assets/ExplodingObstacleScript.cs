@@ -11,7 +11,6 @@ public class SnowmanScript : MonoBehaviour
     {
         BoxCollider = GetComponent<BoxCollider>();
         Rigidbodies = GetComponentsInChildren<Rigidbody>();
-        ParticleSystem = GetComponent<ParticleSystem>();
     }
 
     void Update()
