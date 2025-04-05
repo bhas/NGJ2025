@@ -5,12 +5,13 @@ public class SnowmanScript : MonoBehaviour
     private Rigidbody[] Rigidbodies;
     private BoxCollider BoxCollider;
 
-    
+    public ParticleSystem ParticleSystem;
 
     void Start()
     {
         BoxCollider = GetComponent<BoxCollider>();
         Rigidbodies = GetComponentsInChildren<Rigidbody>();
+        ParticleSystem = GetComponent<ParticleSystem>();
     }
 
     void Update()
@@ -28,6 +29,8 @@ public class SnowmanScript : MonoBehaviour
     private void Explode(Vector3 hitPoint)
     {
         Camera.main.GetComponent<CameraController>().StartSlowMotion();
+
+        ParticleSystem.Play();
 
         BoxCollider.enabled = false;
         foreach(var body in Rigidbodies){
