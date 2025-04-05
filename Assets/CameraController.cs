@@ -2,27 +2,28 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Animations;
 
+[ExecuteInEditMode]
 public class CameraController : MonoBehaviour
 {
     private bool slowMotion;
     float timeScale = 1f;
     float timeToScaleDown = 0.09f;
 
+    Transform Target;
+    public float Distance;
+    public float Height;
+
     void Start()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if(player != null){
-            ConstraintSource source = new ConstraintSource();
-            source.sourceTransform = player.transform;
-            source.weight = 1;
-            GetComponent<LookAtConstraint>().AddSource(source);
-            GetComponent<PositionConstraint>().AddSource(source);
-        }
+        Target = player.transform;
     }
 
     void Update()
     {
-
+        var targetPos = new Vector3(Target.position.x, Target.position.y + Height, Target.position.z - Distance);
+        gameObject.transform.LookAt(Target);
+        gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, targetPos, 2.5f * Time.deltaTime);
     }
 
     public void StartSlowMotion(){
