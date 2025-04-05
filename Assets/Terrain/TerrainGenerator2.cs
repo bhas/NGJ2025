@@ -6,13 +6,15 @@ using UnityEngine;
 public class TerrainGenerator2 : MonoBehaviour
 {
     [Header("Ramp Settings")]
-    public AnimationCurve heightCurve = AnimationCurve.EaseInOut(100, 0, 1, 0);
+    public AnimationCurve heightCurve = AnimationCurve.EaseInOut(0, 100, 1, 0);
     public float altitude = 50;
     public int resolution = 50;
     public float length = 50f;
-    public float width = 20f;
     public float edgeWidth = 3f;
     public float edgeHeight = 10f;
+    public AnimationCurve widthCurve = AnimationCurve.Constant(0, 1, 1);
+    public float width = 20f;
+
 
     [Header("Fence Settings")]
     public Transform FenceContainer;
@@ -129,13 +131,21 @@ public class TerrainGenerator2 : MonoBehaviour
         }
     }
 
+    [ContextMenu("Generate ALl")]
+    private void GenerateAll()
+    {
+        GenerateSnowMen();
+        GenerateRampMesh();
+        GenerateFence();
+        GeneratePenguins();
+    }
+
     [ContextMenu("Generate Slope")]
     private void GenerateRampMesh()
     {
         Mesh mesh = new Mesh();
         var vertices = new List<Vector3>();
         var triangles = new List<int>();
-        float halfWidth = width / 2f;
 
         for (int i = 0; i < resolution; i++)
         {
@@ -173,10 +183,15 @@ public class TerrainGenerator2 : MonoBehaviour
 
     private Vector3 GetPos(float t, float dx)
     {
-        float x = dx * width / 2f;
+        float x = dx * GetWidth(t) / 2f;
         float y = heightCurve.Evaluate(t) * altitude;
         float z = t * length;
         return new Vector3(x, y, z);
+    }
+
+    private float GetWidth(float t)
+    {
+        return widthCurve.Evaluate(t) * width;
     }
 
     private void AddQuad(List<int> triangles, int v1, int v2)
