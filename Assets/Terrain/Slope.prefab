@@ -35,6 +35,7 @@ Transform:
   m_Children:
   - {fileID: 6323124775778078377}
   - {fileID: 3176984330727756634}
+  - {fileID: 825092132990324111}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -17.851, y: 0, z: 0}
 --- !u!33 &6153418068660916029
@@ -172,7 +173,13 @@ MonoBehaviour:
   FencePrefab: {fileID: 789855520394884568, guid: 74a24a36c719fef4994027760f95295a, type: 3}
   Density: 0.5
   FenceGap: 2.9
-  FenceMargin: 2
+  FenceMargin: 1
+  PenguinClusters: 9
+  PenguinContainer: {fileID: 3176984330727756634}
+  PenguinPrefab: {fileID: 4185945612178487281, guid: bfa6552ad873ec14a91f2d80825e23aa, type: 3}
+  SnowMen: 15
+  SnowMenContainer: {fileID: 825092132990324111}
+  SnowMenPrefab: {fileID: 1640814661695099377, guid: ac2cb55703e17471592ed98403888486, type: 3}
 --- !u!64 &3124987363618087899
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -195,6 +202,37 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!1 &1598769348125228680
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 825092132990324111}
+  m_Layer: 0
+  m_Name: Snowmen
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &825092132990324111
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1598769348125228680}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3872698176581517868}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3943580887517350118
 GameObject:
   m_ObjectHideFlags: 0

@@ -29,6 +29,11 @@ public class TerrainGenerator2 : MonoBehaviour
     public Transform PenguinContainer;
     public GameObject PenguinPrefab;
 
+    [Header("Snowmen Settings")]
+    public int SnowMen = 10;
+    public Transform SnowMenContainer;
+    public GameObject SnowMenPrefab;
+
 
     private const int verticesPerSegment = 4;
 
@@ -49,6 +54,27 @@ public class TerrainGenerator2 : MonoBehaviour
                 var pos = GetPos(t + dt, x + dx);
                 var obj = Instantiate(PenguinPrefab, pos, Quaternion.identity, PenguinContainer);
             }
+        }
+    }
+
+    [ContextMenu("Generate Snow Men")]
+    private void GenerateSnowMen()
+    {
+        ClearSnowMen();
+        for (int i = 0; i < PenguinClusters; i++)
+        {
+            var t = Random.Range(0.1f, 0.95f);
+            var x = Random.Range(-0.8f, 0.8f);
+            Instantiate(SnowMenPrefab, GetPos(t, x), Quaternion.identity, SnowMenContainer);
+        }
+    }
+
+    private void ClearSnowMen()
+    {
+        var objs = SnowMenContainer.GetComponentsInChildren<Transform>().Where(x => x.CompareTag("SnowMan")).ToList();
+        foreach (var obj in objs)
+        {
+            DestroyImmediate(obj.gameObject);
         }
     }
 
