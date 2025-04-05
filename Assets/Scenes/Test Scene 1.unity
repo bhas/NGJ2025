@@ -1373,6 +1373,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 91118786093254359, guid: 9042b75a63f444779b82994d2830ff1e, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 3293b2f8145744415abfbcf56752af31, type: 2}
+    - target: {fileID: 333742053437488503, guid: 9042b75a63f444779b82994d2830ff1e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.253
+      objectReference: {fileID: 0}
+    - target: {fileID: 333742053437488503, guid: 9042b75a63f444779b82994d2830ff1e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.472
+      objectReference: {fileID: 0}
     - target: {fileID: 347308370729926719, guid: 9042b75a63f444779b82994d2830ff1e, type: 3}
       propertyPath: m_Layer
       value: 6
@@ -1416,6 +1428,10 @@ PrefabInstance:
     - target: {fileID: 2050257762651644396, guid: 9042b75a63f444779b82994d2830ff1e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076934746769601817, guid: 9042b75a63f444779b82994d2830ff1e, type: 3}
+      propertyPath: ShapeModule.radius.value
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6778737410994500532, guid: 9042b75a63f444779b82994d2830ff1e, type: 3}
       propertyPath: m_Layer

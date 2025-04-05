@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7743989616824138158}
   - component: {fileID: 3235871856401139740}
   - component: {fileID: 3586909195428253111}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pointer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 333742053437488503}
   - component: {fileID: 6076934746769601817}
   - component: {fileID: 91118786093254359}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -135,7 +135,7 @@ Transform:
   m_GameObject: {fileID: 6778737410994500532}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.9063079, z: 0.42261827, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: -0.6}
+  m_LocalPosition: {x: 0, y: -0.253, z: -0.472}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -859,7 +859,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.4
+      value: 0.1
       mode: 0
       spread: 0
       speed:
@@ -4888,7 +4888,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e823cd5b5d27c0f4b8256e7c12ee3e6d, type: 2}
+  - {fileID: 2100000, guid: 3293b2f8145744415abfbcf56752af31, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4953,7 +4953,7 @@ GameObject:
   - component: {fileID: 712407655001985340}
   - component: {fileID: 1763883964115251623}
   - component: {fileID: 3185109273395104969}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Pointer (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5063,7 +5063,7 @@ GameObject:
   - component: {fileID: 1841850395284109376}
   - component: {fileID: 4326406031690344188}
   - component: {fileID: 8422112869888208300}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
