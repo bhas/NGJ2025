@@ -1,12 +1,11 @@
 using System;
-using UnityEditor;
 using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
     Rigidbody Rigidbody;
 
-    private float rotationSpeed = 0.1f;
+    private float rotationSpeed = 100f;
     private float rotation = 0;
     public float xForce = 0;
     public float xForceRotation = 0;
@@ -24,18 +23,16 @@ public class PlayerControl : MonoBehaviour
            Rigidbody.AddForce(new Vector3(0,0,1f), ForceMode.VelocityChange);
         }
 
-        if(Input.GetKey(KeyCode.LeftArrow) && rotation > -90){
-            // Rigidbody.AddForce(new Vector3(-Force,0,0));
-            rotation -= rotationSpeed;
+        if(Input.GetKey(KeyCode.LeftArrow) && rotation > -90 && Rigidbody.linearVelocity.z > 0){
+            rotation -= rotationSpeed * Time.deltaTime;
         }
 
-        if(Input.GetKey(KeyCode.RightArrow) && rotation < 90){
-            // Rigidbody.AddForce(new Vector3(Force,0,0));
-            rotation += rotationSpeed;
+        if(Input.GetKey(KeyCode.RightArrow) && rotation < 90 && Rigidbody.linearVelocity.z > 0){
+            rotation += rotationSpeed * Time.deltaTime;
         }
 
         var absRotation = MathF.Abs(rotation);
-        var zForce = 0.25f * (absRotation / 90) * Rigidbody.linearVelocity.z;
+        var zForce = 0.15f * (absRotation / 90) * Rigidbody.linearVelocity.z;
         xForceRotation = 0.5f * (rotation / 90) * Rigidbody.linearVelocity.magnitude;
         xForce = xForceRotation + (-Rigidbody.linearVelocity.x * (absRotation / 90));
         var force = new Vector3(xForce, 0, -zForce);
