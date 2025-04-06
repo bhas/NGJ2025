@@ -3,6 +3,7 @@ using UnityEngine;
 public class FrozenObjectsScript : MonoBehaviour
 {
     public ParticleSystem ParticleSystem;
+    private bool HitOnce;
     
     void Start()
     {
@@ -11,6 +12,9 @@ public class FrozenObjectsScript : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        ParticleSystem.Play();
+        if(HitOnce){
+            HitOnce = true;
+            ParticleSystem.Play();
+        }
     }
 }
