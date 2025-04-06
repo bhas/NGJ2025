@@ -1,8 +1,7 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Animations;
+using UnityEngine.Rendering;
 
-[ExecuteInEditMode]
 public class CameraController : MonoBehaviour
 {
     private bool slowMotion;
@@ -12,6 +11,7 @@ public class CameraController : MonoBehaviour
     Transform Target;
     public float Distance;
     public float Height;
+    public VolumeProfile volume;
 
     void Start()
     {
@@ -24,6 +24,16 @@ public class CameraController : MonoBehaviour
         var targetPos = new Vector3(Target.position.x, Target.position.y + Height, Target.position.z - Distance);
         gameObject.transform.LookAt(Target);
         gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, targetPos, 2.5f * Time.deltaTime);
+
+        if(Input.GetKeyDown(KeyCode.K)){
+            LevelWon();
+        }
+    }
+
+    public void LevelWon(){
+        Height = 1;
+        Distance = 1;
+        StartCoroutine(SlowDownTime(false, 1f));
     }
 
     public void StartSlowMotion(){
@@ -32,8 +42,10 @@ public class CameraController : MonoBehaviour
         }
     }
 
-     private IEnumerator SlowDownTime(bool StartUpAgain)
+    private IEnumerator SlowDownTime(bool StartUpAgain, float waitBeforeSlow = 0.0f)
     {
+        yield return new WaitForSeconds(waitBeforeSlow);
+
         slowMotion = true;
         timeScale = 1f;
         for (int i = 0; i < 10; i++)
