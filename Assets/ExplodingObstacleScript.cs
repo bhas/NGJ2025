@@ -7,10 +7,13 @@ public class SnowmanScript : MonoBehaviour
 
     public ParticleSystem ParticleSystem;
 
+    public UIController uiController;
+
     void Start()
     {
         BoxCollider = GetComponent<BoxCollider>();
         Rigidbodies = GetComponentsInChildren<Rigidbody>();
+        uiController = GameObject.FindGameObjectWithTag("UI")?.GetComponent<UIController>();   
     }
 
     void Update()
@@ -28,7 +31,8 @@ public class SnowmanScript : MonoBehaviour
     private void Explode(Vector3 hitPoint)
     {
         Camera.main.GetComponent<CameraController>().StartSlowMotion();
-
+        uiController.SnowmanHit();
+        
         ParticleSystem.Play();
 
         BoxCollider.enabled = false;

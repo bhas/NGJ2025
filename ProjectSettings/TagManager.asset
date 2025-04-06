@@ -8,6 +8,7 @@ TagManager:
   - Penguin
   - SnowMan
   - Tree
+  - UI
   layers:
   - Default
   - TransparentFX
