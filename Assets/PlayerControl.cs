@@ -45,6 +45,7 @@ public class PlayerControl : MonoBehaviour
         Rigidbody.AddForce(force);
 
         Rigidbody.MoveRotation(Quaternion.Euler(0, rotation, 0));
-        Model.transform.rotation = Quaternion.RotateTowards(Model.transform.rotation, Quaternion.Euler(transformTarget.rotation.eulerAngles.x, rotation, transformTarget.rotation.z), 5f * Time.deltaTime);
+        var targetModelRotation = Quaternion.Euler(transformTarget.rotation.eulerAngles.x, rotation, transformTarget.rotation.z);
+        Model.transform.rotation = Quaternion.RotateTowards(Model.transform.rotation, targetModelRotation, 100f * Time.deltaTime);
     }
 }
