@@ -22,8 +22,10 @@ public class CameraController : MonoBehaviour
     void Update()
     {
         var targetPos = new Vector3(Target.position.x, Target.position.y + Height, Target.position.z - Distance);
-        gameObject.transform.LookAt(Target);
-        gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, targetPos, 2.5f * Time.deltaTime);
+        Vector3 relativePos = Target.position - transform.position;
+        Quaternion toRotation = Quaternion.LookRotation(relativePos);
+        gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, targetPos, 1.5f * Time.deltaTime);
+        gameObject.transform.rotation = Quaternion.Lerp( transform.rotation, toRotation, 1.5f * Time.deltaTime );
 
         if(Input.GetKeyDown(KeyCode.K)){
             LevelWon();
