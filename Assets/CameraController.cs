@@ -56,7 +56,7 @@ public class CameraController : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
 
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.15f);
 
         if (StartUpAgain)
             StartCoroutine(SpeedUpTime());
