@@ -7,6 +7,7 @@ TagManager:
   - Fence
   - Penguin
   - SnowMan
+  - Tree
   layers:
   - Default
   - TransparentFX

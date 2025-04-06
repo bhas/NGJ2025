@@ -17,6 +17,12 @@ public class TerrainGenerator2 : MonoBehaviour
     public AnimationCurve curve = AnimationCurve.Constant(0, 1, 0);
     public float curveFactor = 1f;
 
+    [Header("Environment Settings")]
+    public MeshFilter bottomObject;
+    public float terrainWidth = 200;
+    public GameObject treePrefab1;
+    public GameObject treePrefab2;
+    public float totalTrees = 300;
 
     [Header("Fence Settings")]
     public Transform FenceContainer;
@@ -39,12 +45,9 @@ public class TerrainGenerator2 : MonoBehaviour
     public GameObject SnowMenPrefab;
 
 
-    private const int verticesPerSegment = 4;
-
-    [ContextMenu("Generate Penguins")]
     private void GeneratePenguins()
     {
-        ClearPenguins();
+        ClearObjects(PenguinContainer, "Penguin");
         for (int i = 0; i< PenguinClusters; i++) 
         {
             var count = Random.Range(2, 5);
@@ -61,7 +64,6 @@ public class TerrainGenerator2 : MonoBehaviour
         }
     }
 
-    [ContextMenu("Generate Snow Men")]
     private void GenerateSnowMen()
     {
         ClearSnowMen();
@@ -82,16 +84,15 @@ public class TerrainGenerator2 : MonoBehaviour
         }
     }
 
-    private void ClearPenguins()
+    private void ClearObjects(Transform parent, string tag)
     {
-        var objs = PenguinContainer.GetComponentsInChildren<Transform>().Where(x => x.CompareTag("Penguin")).ToList();
+        var objs = parent.GetComponentsInChildren<Transform>().Where(x => x.CompareTag(tag)).ToList();
         foreach (var obj in objs)
         {
             DestroyImmediate(obj.gameObject);
         }
     }
 
-    [ContextMenu("Generate Fences")]
     private void GenerateFence()
     {
         ClearFences();
@@ -133,6 +134,14 @@ public class TerrainGenerator2 : MonoBehaviour
         }
     }
 
+    [ContextMenu("Clear Objects")]
+    private void ClearAllObjects()
+    {
+        ClearFences();
+        ClearSnowMen();
+        ClearObjects(PenguinContainer, "Penguin");
+    }
+
     [ContextMenu("Generate ALL")]
     private void GenerateAll()
     {
@@ -140,6 +149,7 @@ public class TerrainGenerator2 : MonoBehaviour
         GenerateRampMesh();
         GenerateFence();
         GeneratePenguins();
+        GenerateBottomTerrain();
     }
 
     [ContextMenu("Generate Slope")]
@@ -148,6 +158,7 @@ public class TerrainGenerator2 : MonoBehaviour
         Mesh mesh = new Mesh();
         var vertices = new List<Vector3>();
         var triangles = new List<int>();
+        const int verticesPerSegment = 4;
 
         for (int i = 0; i < resolution; i++)
         {
@@ -166,9 +177,9 @@ public class TerrainGenerator2 : MonoBehaviour
             // Create triangles
             if (i > 0)
             {
-                AddQuad(triangles, left, right);
-                AddQuad(triangles, botLeft, left);
-                AddQuad(triangles, right, botRight);
+                AddQuad(triangles, left, right, verticesPerSegment);
+                AddQuad(triangles, botLeft, left, verticesPerSegment);
+                AddQuad(triangles, right, botRight, verticesPerSegment);
             }
         }
 
@@ -179,6 +190,52 @@ public class TerrainGenerator2 : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
 
         UpdateMeshCollider(mesh);
+
+        GenerateBottomMesh();
+    }
+
+    private void GenerateBottomMesh()
+    {
+        Mesh mesh = new Mesh();
+        var vertices = new List<Vector3>();
+        var triangles = new List<int>();
+        const int verticesPerSegment = 2;
+
+        for (int i = 0; i < resolution; i++)
+        {
+            float t = i / (float)(resolution - 1);
+
+            // Add vertices
+            var left = i * verticesPerSegment;
+            var right = i * verticesPerSegment + 1;
+            vertices.Add(GetBottomPos(t, -1));  // Left
+            vertices.Add(GetBottomPos(t, 1)); // Right
+
+            // Create triangles
+            if (i > 0)
+            {
+                AddQuad(triangles, left, right, verticesPerSegment);
+            }
+        }
+
+        mesh.vertices = vertices.ToArray();
+        mesh.triangles = triangles.ToArray();
+        mesh.RecalculateNormals();
+
+        bottomObject.mesh = mesh;
+    }
+
+    [ContextMenu("Generate bot terrain")]
+    public void GenerateBottomTerrain()
+    {
+        ClearObjects(bottomObject.transform, "Tree");
+        for (int i = 0; i < totalTrees; i++)
+        {
+            var prefab = i % 2 == 0 ? treePrefab1 : treePrefab2;
+            var t = Random.Range(0f, 1f);
+            var x = Random.Range(-1f, 1f);
+            Instantiate(prefab, GetBottomPos(t, x), Quaternion.identity, bottomObject.transform);
+        }
     }
 
     private Vector3 GetPos(float t, float dx)
@@ -190,12 +247,20 @@ public class TerrainGenerator2 : MonoBehaviour
         return new Vector3(x + xOffset, y, z);
     }
 
+    private Vector3 GetBottomPos(float t, float dx)
+    {
+        float x = dx * terrainWidth / 2f;
+        float y = heightCurve.Evaluate(t) * altitude - edgeHeight;
+        float z = t * length;
+        return new Vector3(x, y, z);
+    }
+
     private float GetWidth(float t)
     {
         return widthCurve.Evaluate(t) * width;
     }
 
-    private void AddQuad(List<int> triangles, int v1, int v2)
+    private void AddQuad(List<int> triangles, int v1, int v2, int verticesPerSegment)
     {
         triangles.Add(v1);
         triangles.Add(v2);
