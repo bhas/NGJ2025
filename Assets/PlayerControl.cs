@@ -14,8 +14,8 @@ public class PlayerControl : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Rigidbody.Sleep();
         Rigidbody = this.GetComponent<Rigidbody>();
+        Rigidbody.Sleep();
     }
 
     // Update is called once per frames
