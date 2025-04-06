@@ -13,6 +13,8 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02F * Time.timeScale;
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         Target = player.transform;
     }
