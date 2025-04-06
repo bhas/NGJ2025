@@ -17,7 +17,7 @@ public class UIController : MonoBehaviour
         if(startTime.HasValue)
         {
             var passedTime = DateTime.Now-startTime.Value;
-            Time.text = "Time: " + passedTime.ToString("mm:ss");
+            Time.text = $"Time: {passedTime.Minutes:D2}:{passedTime.Seconds:D2}";
         }else{
             Time.text = "Time: 00:00";
         }
