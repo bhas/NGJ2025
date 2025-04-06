@@ -21,8 +21,9 @@ public class PlayerControl : MonoBehaviour
     void Update()
     {
         RaycastHit raycastHit;
-        Physics.Raycast(this.transform.position, Vector3.down, out raycastHit, 10f, 9);
-        Model.transform.up = raycastHit.normal;
+        Physics.Raycast(this.transform.position, Vector3.down, out raycastHit);
+        var transformTarget = this.transform;
+        transformTarget.up = raycastHit.normal;
 
         if(Input.GetKeyDown(KeyCode.Space)){
            Rigidbody.AddForce(new Vector3(0,0,1f), ForceMode.VelocityChange);
@@ -44,5 +45,6 @@ public class PlayerControl : MonoBehaviour
         Rigidbody.AddForce(force);
 
         Rigidbody.MoveRotation(Quaternion.Euler(0, rotation, 0));
+        Model.transform.rotation = Quaternion.RotateTowards(Model.transform.rotation, Quaternion.Euler(transformTarget.rotation.eulerAngles.x, rotation, transformTarget.rotation.z), 5f * Time.deltaTime);
     }
 }
