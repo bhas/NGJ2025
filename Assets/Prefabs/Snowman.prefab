@@ -4967,6 +4967,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ParticleSystem: {fileID: 3131214348993404230}
+  uiController: {fileID: 0}
 --- !u!1 &4936255872295294759
 GameObject:
   m_ObjectHideFlags: 0
