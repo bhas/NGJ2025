@@ -38,6 +38,7 @@ public class CameraController : MonoBehaviour
 
     public void StartSlowMotion(float waitBeforeSpeedUp = 0.15f){
         if(!slowMotion){
+            slowMotion = true;
             StartCoroutine(SlowDownTime(true, waitBeforeSpeedUp));
         }
     }
@@ -46,7 +47,6 @@ public class CameraController : MonoBehaviour
     {
         yield return new WaitForSeconds(waitBeforeSlow);
 
-        slowMotion = true;
         timeScale = 1f;
         for (int i = 0; i < 10; i++)
         {
