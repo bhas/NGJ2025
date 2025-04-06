@@ -49,7 +49,7 @@ public class TerrainGenerator2 : MonoBehaviour
 
             for (int j = 0; j < count; j++)
             {
-                var dt = Random.Range(-0.01f, 0.01f);
+                var dt = Random.Range(-0.002f, 0.002f);
                 var dx = Random.Range(-0.1f, 0.1f);
                 var pos = GetPos(t + dt, x + dx);
                 var obj = Instantiate(PenguinPrefab, pos, Quaternion.identity, PenguinContainer);
