@@ -7,8 +7,9 @@ public class PlayerControl : MonoBehaviour
 
     private float rotationSpeed = 100f;
     private float rotation = 0;
-    public float xForce = 0;
-    public float xForceRotation = 0;
+    private float xForce = 0;
+    private float xForceRotation = 0;
+    public GameObject Model;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,6 +20,10 @@ public class PlayerControl : MonoBehaviour
     // Update is called once per frames
     void Update()
     {
+        RaycastHit raycastHit;
+        Physics.Raycast(this.transform.position, Vector3.down, out raycastHit, 10f, 9);
+        Model.transform.up = raycastHit.normal;
+
         if(Input.GetKeyDown(KeyCode.Space)){
            Rigidbody.AddForce(new Vector3(0,0,1f), ForceMode.VelocityChange);
         }

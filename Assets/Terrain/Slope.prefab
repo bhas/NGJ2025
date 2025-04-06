@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6362828961076123325}
   - component: {fileID: 590263134801401837}
   - component: {fileID: 3124987363618087899}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Slope
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -187,7 +187,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 576025142114302024}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: a30f2090715f24ebdadcc256f6181eee, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

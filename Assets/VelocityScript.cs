@@ -10,6 +10,6 @@ public class VelocityScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TextMeshPro.text = $"Velocity: {Rigidbody.linearVelocity.ToString()} \nxForceRotation: {playerControl.xForceRotation}\nxForce: {playerControl.xForce}\n";
+        
     }
 }
