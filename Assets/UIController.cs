@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class UIController : MonoBehaviour
 {
+    private int gateCount = 0;
     private int snowMenCount = 0;
     private DateTime? startTime = null;
 
     public TextMeshProUGUI Time;
     public TextMeshProUGUI Snowmen;
+    public TextMeshProUGUI Gate;
 
 
     // Update is called once per frame
@@ -23,6 +25,7 @@ public class UIController : MonoBehaviour
         }
         
         Snowmen.text = snowMenCount.ToString();
+        Gate.text = gateCount.ToString();
     }
 
     public void SnowmanHit(){
@@ -34,5 +37,10 @@ public class UIController : MonoBehaviour
         if(!startTime.HasValue){
             startTime = DateTime.Now;
         }
+    }
+
+    internal void GateHit()
+    {
+        gateCount++;
     }
 }
