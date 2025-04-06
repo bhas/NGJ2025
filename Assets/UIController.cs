@@ -7,6 +7,7 @@ public class UIController : MonoBehaviour
     private int gateCount = 0;
     private int snowMenCount = 0;
     private DateTime? startTime = null;
+    private DateTime? endTime = null;
 
     public TextMeshProUGUI Time;
     public TextMeshProUGUI Snowmen;
@@ -19,6 +20,10 @@ public class UIController : MonoBehaviour
         if(startTime.HasValue)
         {
             var passedTime = DateTime.Now-startTime.Value;
+            Time.text = $"Time: {passedTime.Minutes:D2}:{passedTime.Seconds:D2}";
+        }else if(startTime.HasValue && endTime.HasValue)
+        {
+            var passedTime = endTime.Value-startTime.Value;
             Time.text = $"Time: {passedTime.Minutes:D2}:{passedTime.Seconds:D2}";
         }else{
             Time.text = "Time: 00:00";
@@ -39,8 +44,15 @@ public class UIController : MonoBehaviour
         }
     }
 
-    internal void GateHit()
+    public void GateHit()
     {
         gateCount++;
+    }
+
+    public void LevelWon()
+    {
+        if(!endTime.HasValue){
+            endTime = DateTime.Now;
+        }
     }
 }
