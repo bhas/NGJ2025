@@ -5,10 +5,11 @@ public class FrozenObjectsScript : MonoBehaviour
     public ParticleSystem ParticleSystem;
     private bool HitOnce;
 
-    public Rigidbody Rigidbody;
+    private Rigidbody Rigidbody;
     
     void Start()
     {
+        Rigidbody = GetComponent<Rigidbody>();
         Rigidbody.Sleep();
     }
 
