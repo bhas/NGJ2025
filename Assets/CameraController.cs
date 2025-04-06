@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour
     public void LevelWon(){
         Height = 1;
         Distance = 1;
-        StartCoroutine(SlowDownTime(false, 1f));
+        StartCoroutine(SlowDownTime(false));
     }
 
     public void StartSlowMotion(){
