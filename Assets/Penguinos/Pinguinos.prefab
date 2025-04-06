@@ -384,6 +384,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ParticleSystem: {fileID: 3918191294327026808}
+  Rigidbody: {fileID: 2910410395166874845}
 --- !u!1 &4247096322937018609
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Rendering;
 
 public class CameraController : MonoBehaviour
 {
@@ -11,10 +10,11 @@ public class CameraController : MonoBehaviour
     Transform Target;
     public float Distance;
     public float Height;
-    public VolumeProfile volume;
 
     void Start()
     {
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = 0.02F * Time.timeScale;
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         Target = player.transform;
     }
@@ -36,13 +36,13 @@ public class CameraController : MonoBehaviour
         StartCoroutine(SlowDownTime(false));
     }
 
-    public void StartSlowMotion(){
+    public void StartSlowMotion(float waitBeforeSpeedUp = 0.15f){
         if(!slowMotion){
-            StartCoroutine(SlowDownTime(true));
+            StartCoroutine(SlowDownTime(true, waitBeforeSpeedUp));
         }
     }
 
-    private IEnumerator SlowDownTime(bool StartUpAgain, float waitBeforeSlow = 0.0f)
+    private IEnumerator SlowDownTime(bool StartUpAgain, float waitBeforeSpeedUp = 0.15f, float waitBeforeSlow = 0.0f)
     {
         yield return new WaitForSeconds(waitBeforeSlow);
 
@@ -56,7 +56,7 @@ public class CameraController : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
 
-        yield return new WaitForSeconds(0.15f);
+        yield return new WaitForSeconds(waitBeforeSpeedUp);
 
         if (StartUpAgain)
             StartCoroutine(SpeedUpTime());

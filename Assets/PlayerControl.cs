@@ -10,12 +10,14 @@ public class PlayerControl : MonoBehaviour
     private float xForce = 0;
     private float xForceRotation = 0;
     public GameObject Model;
+    public UIController uiController;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Rigidbody = this.GetComponent<Rigidbody>();
         Rigidbody.Sleep();
+        uiController = GameObject.FindGameObjectWithTag("UI")?.GetComponent<UIController>();   
     }
 
     // Update is called once per frames
@@ -27,6 +29,7 @@ public class PlayerControl : MonoBehaviour
         transformTarget.up = raycastHit.normal;
 
         if(Input.GetKeyDown(KeyCode.Space)){
+            uiController.Start();
            Rigidbody.AddForce(new Vector3(0,0,1f), ForceMode.VelocityChange);
         }
 
