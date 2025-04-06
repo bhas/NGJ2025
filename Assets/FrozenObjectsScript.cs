@@ -12,7 +12,7 @@ public class FrozenObjectsScript : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if(HitOnce){
+        if(!HitOnce){
             HitOnce = true;
             ParticleSystem.Play();
         }
