@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIController : MonoBehaviour
 {
@@ -13,6 +14,8 @@ public class UIController : MonoBehaviour
     public TextMeshProUGUI Snowmen;
     public TextMeshProUGUI Gate;
 
+public GameObject WinScreen;
+public GameObject LoseScreen;
 
     // Update is called once per frame
     void Update()
@@ -22,7 +25,7 @@ public class UIController : MonoBehaviour
             var passedTime = DateTime.Now-startTime.Value;
             Time.text = $"Time: {passedTime.Minutes:D2}:{passedTime.Seconds:D2}";
         }else if(startTime.HasValue && endTime.HasValue)
-        {
+        {   
             var passedTime = endTime.Value-startTime.Value;
             Time.text = $"Time: {passedTime.Minutes:D2}:{passedTime.Seconds:D2}";
         }else{
@@ -49,10 +52,23 @@ public class UIController : MonoBehaviour
         gateCount++;
     }
 
+    public void Died()
+    {
+        if(!endTime.HasValue){
+            endTime = DateTime.Now;
+        }
+        LoseScreen.SetActive(true);
+    }
+
     public void LevelWon()
     {
         if(!endTime.HasValue){
             endTime = DateTime.Now;
         }
+        WinScreen.SetActive(true);
+    }
+
+    public void Restart(){
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
