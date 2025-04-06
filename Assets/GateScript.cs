@@ -20,7 +20,7 @@ public class GateScript : MonoBehaviour
 
     private void Score()
     {
-        Camera.main.GetComponent<CameraController>().StartSlowMotion(0.05f);
+        Camera.main.GetComponent<CameraController>().StartSlowMotion(0.01f);
         uiController.GateHit();
         
         ParticleSystem.Play();

@@ -17,7 +17,7 @@ public class RampScript : MonoBehaviour
 
     private void Score()
     {
-        Camera.main.GetComponent<CameraController>().StartSlowMotion(0.18f);
+        Camera.main.GetComponent<CameraController>().StartSlowMotion(0.10f);
         ParticleSystem.Play();
     }
 }
