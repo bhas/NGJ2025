@@ -5,7 +5,7 @@ public class PlayerControl : MonoBehaviour
 {
     Rigidbody Rigidbody;
 
-    private float rotationSpeed = 100f;
+    private float rotationSpeed = 135f;
     private float rotation = 0;
     private float xForce = 0;
     private float xForceRotation = 0;
@@ -43,7 +43,7 @@ public class PlayerControl : MonoBehaviour
 
         var absRotation = MathF.Abs(rotation);
         var zForce = 0.15f * (absRotation / 90) * Rigidbody.linearVelocity.z;
-        xForceRotation = 0.5f * (rotation / 90) * Rigidbody.linearVelocity.magnitude;
+        xForceRotation = 0.8f * (rotation / 90) * Rigidbody.linearVelocity.magnitude;
         xForce = xForceRotation + (-Rigidbody.linearVelocity.x * (absRotation / 90));
         var force = new Vector3(xForce, 0, -zForce);
         Rigidbody.AddForce(force);
